@@ -1,7 +1,7 @@
 package oop;
 import java.awt.FlowLayout;
-import java.text.ParseException;
-import java.util.ArrayList;
+//import java.text.ParseException;
+//import java.util.ArrayList;
 import javax.swing.JFrame;
 import java.util.Arrays;
 import uk.ac.leedsbeckett.oop.LBUGraphics;
@@ -11,7 +11,8 @@ import java.awt.Color;
 public class MainClass extends LBUGraphics
 {
     Scanner scanner = new Scanner(System.in);
-        
+        private final String[] commandValid =
+        {"forward", "backward", "left", "right", "point", "pendown", "penup", "red", "black", "green", "white", "reset", "clear"};
         public static void main(String[] args)
         {
                 new MainClass();
@@ -94,6 +95,18 @@ public class MainClass extends LBUGraphics
                 case "clear":
                     clear();
                     break;
+                case "penstroke":
+                    setStroke(100);
+                    break;
+                case "circle":
+                    drawCircle(50);
+                    break;
+                case "square":
+                    drawSquare(100);
+                    break;
+                case "rectangle":
+                    drawRectangle(100, 50);
+                    break;
                 default:
                     displayMessage("Invalid command. Please try again.");
                     break;
@@ -103,6 +116,39 @@ public class MainClass extends LBUGraphics
         }
         scanner.close();
     }
+
+    private boolean isValidCommand(String command) {
+        return Arrays.stream(commandValid).anyMatch(command::equals);
+    }
+
+    private void drawCircle(int radius) {
+        penDown();
+        for (int i = 0; i < 360; i++) {
+            forward(radius / 10);
+            turnRight(1);
+        }
+        penUp();
+    }
+
+    private void drawSquare(int sideLength) {
+        penDown();
+        for (int i = 0; i < 4; i++) {
+            forward(sideLength);
+            turnRight(90);
+        }
+        penUp();
+    }
+
+    private void drawRectangle(int width, int height) {
+        penDown();
+        for (int i = 0; i < 2; i++) {
+            forward(width);
+            turnRight(90);
+            forward(height);
+            turnRight(90);
+        }
+        penUp();
     
      
+    }
 }
